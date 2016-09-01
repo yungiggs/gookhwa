@@ -5,12 +5,33 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Timer;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
+
+import com.google.gson.Gson;
+import com.ibatis.sqlmap.client.SqlMapClient;
 
 import config.ISytemConstant;
+import sqlmap.SqlMapConfig;
 import util.GookHwaUtil;
 
 
@@ -29,30 +50,21 @@ public class Home {
 		
 		String tempDomain = ISytemConstant.FACEBOOK_URL+"/616654368500780_659663660866517/likes";
 		
-		String targetURL = GookHwaUtil.makeFullURL(tempDomain,  GookHwaUtil.getFacebookParam());
-		HttpURLConnection con=null;
-		InputStreamReader isr=null;
+		GookHwaBatchScheduler batchScheduler = GookHwaBatchScheduler.getInstance();
+		
+		
 		try {
 			
-			URL url = new URL(targetURL);
-			con = (HttpURLConnection)url.openConnection();
-			isr = new InputStreamReader(con.getInputStream(), "UTF-8");
 			
-			JSONObject object = (JSONObject)JSONValue.parseWithException(isr);
+			batchScheduler.makeScheduler(GookHwaBatchJob.class, "0 0 * * * ?").start();
 			
-			logger.info(object+"");
-
-		} catch (Exception e) {
+			
+		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
-			
-			
-			try {con.disconnect();} catch (Exception e) {e.printStackTrace();}
-			try {isr.close();} catch (IOException e) {e.printStackTrace();}
-			
 		}
-		
+
+
 	}
 
 }

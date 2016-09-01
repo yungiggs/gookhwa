@@ -1,5 +1,7 @@
 package util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,22 +30,14 @@ public class GookHwaUtil {
 		 
 		return domain+"?"+result.substring(0);
 	}	
-//	public static String makeFullURL(String domain,Map subDomain,Map param){
-//		
-//		String tempDomain = makeURL(domain, subDomain);
-//		 
-//		return  makeFullURL(tempDomain,param);
-//	}	
-
-	public static Map getFacebookParam(){
-
-		Map param = new HashMap();
+	public static String nowDate(){
 		
-		param.put("summary", "true");
-		param.put("access_token", ISytemConstant.COMMON_ACCESS_KEY);
+		Calendar calendar = Calendar.getInstance();
+        java.util.Date date = calendar.getTime();
+        String today = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));	
 		
-		return  param;
-	}		
+        return today;
+	}
 	
 	
 	
