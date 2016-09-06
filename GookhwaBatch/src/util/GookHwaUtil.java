@@ -32,13 +32,17 @@ public class GookHwaUtil {
 	}	
 	public static String nowDate(){
 		
+
+        return nowDate("yyyy-MM-dd HH:mm:ss");
+	}
+	public static String nowDate(String type){
+		
 		Calendar calendar = Calendar.getInstance();
         java.util.Date date = calendar.getTime();
-        String today = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));	
+        String today = (new SimpleDateFormat(type).format(date));	
 		
         return today;
-	}
-	
+	}	
 	
 	
 }
