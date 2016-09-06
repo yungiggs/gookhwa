@@ -51,12 +51,11 @@ public class Home {
 		String tempDomain = ISytemConstant.FACEBOOK_URL+"/616654368500780_659663660866517/likes";
 		
 		GookHwaBatchScheduler batchScheduler = GookHwaBatchScheduler.getInstance();
-		
-		
+
 		try {
 			
-			
-			batchScheduler.makeScheduler(GookHwaBatchJob.class, "0 0 * * * ?").start();
+			logger.info("***스캐쥴러 가동:0 0 * * * ?");
+			batchScheduler.makeScheduler(GookHwaLikeBatchJob.class, "0 0 * * * ?").start();
 			
 			
 		} catch (SchedulerException e) {
