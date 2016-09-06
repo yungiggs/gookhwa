@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="history">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<select id="getCherishShareHistoryList"  parameterClass="hashMap" resultClass="hashMap">
+		SELECT history.post_id
+		FROM TBL_CHERISH_SHARE_HISTORY history 
+	</select>   
+	<insert id="insertBatchGroup"  parameterClass="hashMap"  >
+		INSERT INTO TBL_BATCH_GROUP(
+			batch_group_title
+			,year
+			,month
+			,day
+			,hour
+			,batch_group_type
+			,create_date
+		)VALUES(
+			#batch_group_title#
+			,#year#
+			,#month#
+			,#day#
+			,#hour#
+			,#batch_group_type#
+			,now()	
+		)
+		<selectKey keyProperty="batch_group_id" resultClass="int">
+      		SELECT LAST_INSERT_ID()
+		</selectKey>			
+	</insert>
+	<insert id="insertBatchHistory"  parameterClass="hashMap"  >
+		INSERT INTO tbl_batch_post_history (
+			batch_group_id
+			,post_id
+			,user_id
+			,name
+			,create_date
+		)  
+		<dynamic>
+			<iterate prepend="VALUES" conjunction=", " property="list">
+				( 
+					#batch_group_id# 
+					, #post_id#
+					, #list[].id#
+					, #list[].name#
+					, now()
+				)
+			</iterate>
+		</dynamic>		
+	</insert>	
+
+	
+</sqlMap>
