@@ -50,7 +50,7 @@ public class GookHwaLikeBatchJob extends BaseJob {
 			batchParam.put("hour",GookHwaUtil.nowDate("HH"));
 
 			list	=	sqlmap.queryForList("history.getCherishShareHistoryList");
-			logger.info(list);
+			
 			int bactGroupId 	=	(Integer)sqlmap.insert("history.insertBatchGroup",batchParam);
 			
 			FBContainer fbContainer = new FBContainer();
@@ -60,6 +60,7 @@ public class GookHwaLikeBatchJob extends BaseJob {
 				Map item = (Map)list.get(i);
 				
 				batchParam.put("post_id",StringUtil.nvl(item, "post_id"));
+				batchParam.put("access_token",StringUtil.nvl(item, "access_token"));
 				
 				Map resultMap = fbContainer.getLikes(ISytemConstant.FACEBOOK_URL, batchParam);
 				
@@ -70,9 +71,17 @@ public class GookHwaLikeBatchJob extends BaseJob {
 				if(resultStatus.equals(Status.SUCCESS)){
 					
 					List tempList = (List)resultMap.get("result");
+					
 					logger.info(tempList);
+					
 					batchParam.put("list", tempList);
-					sqlmap.insert("history.insertBatchHistory",batchParam);
+					batchParam.put("count", tempList.size());
+					
+					if(tempList.size()>0){
+						sqlmap.insert("history.insertBatchHistory",batchParam);
+					}
+					sqlmap.update("history.updateShareHisotryCount",batchParam);
+
 							
 				}else{
 

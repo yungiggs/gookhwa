@@ -8,8 +8,16 @@
 
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<select id="getCherishShareHistoryList"  parameterClass="hashMap" resultClass="hashMap">
-		SELECT history.post_id
-		FROM TBL_CHERISH_SHARE_HISTORY history 
+		SELECT 
+			history.post_id
+			,member.facebook_access_token access_token
+		FROM 	
+			TBL_CHERISH_SHARE_HISTORY history LEFT JOIN  
+			TBL_MEMBER member ON(history.share_member_id=member.member_id)		 
+		WHERE  
+			member.member_id IS NOT NULL AND facebook_access_token IS NOT NULL 
+		ORDER BY 
+			history.cherish_share_history_id desc
 	</select>   
 	<insert id="insertBatchGroup"  parameterClass="hashMap"  >
 		INSERT INTO TBL_BATCH_GROUP(
@@ -33,6 +41,17 @@
       		SELECT LAST_INSERT_ID()
 		</selectKey>			
 	</insert>
+	<update id="updateShareHisotryCount"  parameterClass="hashMap" >
+		update tbl_cherish_share_history 
+		set 
+			<isEqual property="batch_group_type" compareValue="LIKE">
+				current_like_count=#count#
+			</isEqual>
+			<isEqual property="batch_group_type" compareValue="SHARE">
+				current_like_count=#count#
+			</isEqual>			
+		where post_id=#post_id#	
+	</update>
 	<insert id="insertBatchHistory"  parameterClass="hashMap"  >
 		INSERT INTO tbl_batch_post_history (
 			batch_group_id

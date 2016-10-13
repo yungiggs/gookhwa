@@ -28,11 +28,15 @@ public class FBContainer extends BaseContainer{
 		Map returnMap 	=	new HashMap();
 		List list		=	new ArrayList();
 		String postId 	= 	StringUtil.nvl(param,"post_id");
-//		String postId = "616654368500780_659663660866517";
+		String accessToken = StringUtil.nvl(param,"access_token");
 		domain = domain+"/"+postId+"/likes";
 		
-		String url  = GookHwaUtil.makeFullURL(domain, getFacebookParam());
-
+		Map urlParam = new HashMap();
+		urlParam.put("post_id", postId);
+		urlParam.put("access_token", accessToken);
+		
+		String url  = GookHwaUtil.makeFullURL(domain,urlParam);
+			
 		try {
 			 
 			Map resultMap = super.connect(url);
@@ -72,13 +76,5 @@ public class FBContainer extends BaseContainer{
 		Map resultMap = new HashMap();
 		return param;
 	}
-	private  Map getFacebookParam(){
 
-		Map param = new HashMap();
-		
-		param.put("summary", "true");
-		param.put("access_token", ISytemConstant.COMMON_ACCESS_KEY);
-		
-		return  param;
-	}		
 }
