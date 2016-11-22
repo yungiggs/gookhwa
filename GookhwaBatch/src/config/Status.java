@@ -15,5 +15,6 @@ public enum Status {
     // span °ª ¹ÝÈ¯
     public String getValue(){
         return value;
-    }	
+    }
+    
 }

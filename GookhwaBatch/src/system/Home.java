@@ -40,11 +40,11 @@ public class Home {
 	final static Logger logger = Logger.getLogger(Home.class);
 	
 	/*
-	 * 1.¸Å½Ã°£ Á¤°¢ Å¸ÀÓ Æ½ ¹ß»ı 
-	 * 2.ÀÛ¾÷ ÁØºñ 
-	 * 2-1 Å©·Ñ¸µ µ¹¸°´Ù.
-	 * 2-2 rdb ÀúÀå
-	 * 2-3 ³¡
+	 * 1.ë§¤ì‹œê°„ ì •ê° íƒ€ì„ í‹± ë°œìƒ 
+	 * 2.ì‘ì—… ì¤€ë¹„ 
+	 * 2-1 í¬ë¡¤ë§ ëŒë¦°ë‹¤.
+	 * 2-2 rdb ì €ì¥
+	 * 2-3 ë
 	 * */
 	public static void main(String[] args) {
 
@@ -52,7 +52,7 @@ public class Home {
 
 		try {
 			
-			logger.info("***½ºÄ³Áì·¯ °¡µ¿:0 0 * * * ?");
+			logger.info("***ï¿½ï¿½Ä³ï¿½ì·¯ ï¿½ï¿½ï¿½ï¿½:0 0 * * * ?");
 			
 			batchScheduler.makeScheduler(GookHwaLikeBatchJob.class, "0 0/15 * * * ?").start();
 			
