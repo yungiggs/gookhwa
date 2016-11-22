@@ -47,7 +47,7 @@ public class Home {
 	 * 2-3 끝
 	 * */
 	public static void main(String[] args) {
-
+		System.out.println();
 		GookHwaBatchScheduler batchScheduler = GookHwaBatchScheduler.getInstance();
 
 		try {
